@@ -4,29 +4,17 @@
 abstract class Response
 {
 
-    private $data;
+    private $payload;
 
-    protected function __construct($data = null)
+    public function __construct($payload = null)
     {
 
-        $this->data = $data;
+        $this->payload = $payload;
     }
 
-    public static function void()
+    public function __invoke()
     {
-
-        return new static;
+        return $this->payload;
     }
 
-    public static function create($data)
-    {
-
-        return new static($data);
-    }
-
-    public function getData()
-    {
-
-        return $this->data;
-    }
 }

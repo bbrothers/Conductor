@@ -15,7 +15,7 @@ class FooHandler implements Handler
     public function handle(Request $request)
     {
 
-        return FooResponse::create($request);
+        return new FooResponse($request);
     }
 
 }

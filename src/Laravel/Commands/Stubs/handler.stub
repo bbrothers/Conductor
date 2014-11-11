@@ -10,12 +10,12 @@ class {{ name }}Handler implements Handler
      * Handle the request.
      *
      * @param Request $request
-     * @return \Conductor\Response|static
+     * @return \Conductor\Response
      */
     public function handle(Request $request)
     {
 
-        return {{ name }}Response::create($request);
+        return new {{ name }}Response($request);
     }
 
 }
