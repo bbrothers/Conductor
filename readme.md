@@ -11,39 +11,42 @@ It is still under heavy development and not ready for production use. Please fee
 
 ---
 
-Conductor uses name inflection to pass a request to the appropriate handler `FooRequest` would be passed to `FooHandler` and return an instance of `FooResponse`.
+Conductor uses name inflection to pass a request to the appropriate handler. For example, `FooRequest` would be passed to `FooHandler` and return an instance of `FooResponse`.
 
 ####Basic Usage:  
 Conductor requires an IoC container to handle resolving classes. It was written with Laravel's IoC Container mind, but Pimple or any other container will work so long as the `Resolver` can retrieve the class with it's dependancies.
 
 To register the bus, you might use something like this:
 ```php
-    $IoCContainer['conductor'] = new \Conductor\ExecutionBus(new \Foo\Resolver($IoCContainer), new \Conductor\Inflector);
+$IoCContainer['conductor'] = new \Conductor\ExecutionBus(
+	new \Foo\Resolver($IoCContainer),
+	new \Conductor\Inflector
+);
 ```
 Note: For Laravel, I've included a service provider to handle the registration. 
 
 In your controller, instantiate a new request DTO with whatever data you need and pass it to the ExecutionBus to execute.
 ```php
-    $request = new \Conductor\FooRequest($this->request->all());
-    $response = $IoCContainer['conductor']->execute($request);
-    return $IoCContainer['view']->make($response->getData()); // Pseudo code for rendering a view
+$request = new \Conductor\FooRequest($this->request->all());
+$response = $IoCContainer['conductor']->execute($request);
+return $IoCContainer['view']->make($response->getData()); // Pseudo code for rendering a view
 ```
 
 The Handler class would then do any necessary logic, such as querying the database/repository and return a response.
 ```php
-    public function handle(Request $request)
-    {
-        $user = User::find($request->userId);
+public function handle(Request $request)
+{
+    $user = User::find($request->userId);
 
-        return FooResponse::create($user);
-    }
+    return FooResponse::create($user);
+}
 ```
 
 By default, Conductor looks for `FooValidator`. If the class exists, it resolves it from the IoC Container and runs a `validate()` method before passing the request on to the handler. For Laravel, an abstract `RequestValidator` class has been included.
 
 An example implementation might look like this:
 ```php
-<?php namespace Acme\Accounts;
+namespace Acme\Accounts;
 
 use Conductor\Laravel\RequestValidator;
 
