@@ -1,0 +1,27 @@
+<?php namespace {{ namespace }};
+
+use Conductor\Contracts\Request;
+
+class {{ name }}Request implements Request
+{
+
+    {{# properties }}
+    /**
+     * @var string
+     */
+    public ${{ . }};
+
+    {{/ properties}}
+    /**
+     {{# properties }}
+     * @param string ${{ . }}
+     {{/ properties }}
+     */
+    public function __construct({{ arguments }})
+    {
+        {{# properties}}
+        $this->{{ . }} = ${{ . }};
+        {{/ properties}}
+    }
+
+}

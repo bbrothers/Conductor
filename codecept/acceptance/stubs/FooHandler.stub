@@ -1,0 +1,21 @@
+<?php namespace ;
+
+use Conductor\Contracts\Handler;
+use Conductor\Contracts\Request;
+
+class FooHandler implements Handler
+{
+
+    /**
+     * Handle the request.
+     *
+     * @param Request $request
+     * @return \Conductor\Response|static
+     */
+    public function handle(Request $request)
+    {
+
+        return FooResponse::create($request);
+    }
+
+}

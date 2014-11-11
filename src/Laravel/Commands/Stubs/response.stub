@@ -1,0 +1,5 @@
+<?php namespace {{ namespace }};
+
+use Conductor\Response;
+
+class {{ name }}Response extends Response {}
